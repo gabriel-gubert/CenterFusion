@@ -5,8 +5,12 @@ from ..utils import _topk, _tranpose_and_gather_feat
 from utils.ddd_utils import get_pc_hm
 from utils.pointcloud import generate_pc_hm
 
+import numpy as np
+
 import torch
 from torch import nn
+
+from PQTorch import gettype, astype, tobin, frombin
 
 def fill_fc_weights(layers):
     for m in layers.modules():
@@ -94,10 +98,34 @@ class BaseModel(nn.Module):
       for s in range(self.num_stacks):
         z = {}
 
+        device = feats[s].device.type
+
         ## Run the first stage heads
+        if self.opt.quantize_heads == 'all':
+          feats[s] = astype(feats[s], gettype(self.opt.N, self.opt.Es))
+
+          if self.opt.qdevice == 'fpga':
+              feats[s] = tobin(feats[s])
+        elif self.opt.quantize_heads == 'primary':
+          qfeats = astype(feats[s], gettype(self.opt.N, self.opt.Es))
+
+          if self.opt.qdevice == 'fpga':
+              qfeats = tobin(qfeats)
+
         for head in self.heads:
           if head not in self.secondary_heads:
-            z[head] = self.__getattr__(head)(feats[s])
+            if self.opt.quantize_heads == 'all':
+              if self.opt.qdevice == 'fpga':
+                z[head] = torch.from_numpy(astype(frombin(self.__getattr__(head)(feats[s]), gettype(self.opt.N, self.opt.Es)), np.float32)).to(device)
+              else:
+                z[head] = torch.from_numpy(astype(self.__getattr__(head)(feats[s]), np.float32)).to(device)
+            elif self.opt.quantize_heads == 'primary':
+              if self.opt.qdevice == 'fpga':
+                z[head] = torch.from_numpy(astype(frombin(self.__getattr__(head)(qfeats), gettype(self.opt.N, self.opt.Es)), np.float32)).to(device)
+              else:
+                z[head] = torch.from_numpy(astype(self.__getattr__(head)(qfeats), np.float32)).to(device)
+            else:
+              z[head] = self.__getattr__(head)(feats[s])
 
         if self.opt.pointcloud:
           ## get pointcloud heatmap
@@ -112,10 +140,32 @@ class BaseModel(nn.Module):
           z['pc_hm'] = pc_hm[:,ind,:,:].unsqueeze(1)
 
           ## Run the second stage heads  
-          sec_feats = [feats[s], pc_hm]
-          sec_feats = torch.cat(sec_feats, 1)
+          if self.opt.quantize_heads == 'all':
+            if self.opt.qdevice == 'fpga':
+                sec_feats = [feats[s], tobin(astype(pc_hm, gettype(self.opt.N, self.opt.Es)))]
+            else:
+                sec_feats = [feats[s], astype(pc_hm, gettype(self.opt.N, self.opt.Es))]
+
+            sec_feats = np.concatenate(sec_feats, 1)
+          elif self.opt.quantize_heads == 'secondary':
+            sec_feats = [feats[s], pc_hm]
+            sec_feats = torch.cat(sec_feats, 1)
+            sec_feats = astype(sec_feats, gettype(self.opt.N, self.opt.Es))
+
+            if self.opt.qdevice == 'fpga':
+                sec_feats = tobin(sec_feats)
+          else:
+            sec_feats = [feats[s], pc_hm]
+            sec_feats = torch.cat(sec_feats, 1)
+
           for head in self.secondary_heads:
-            z[head] = self.__getattr__(head)(sec_feats)
+            if self.opt.quantize_heads == 'all' or self.opt.quantize_heads == 'secondary':
+              if self.opt.qdevice == 'fpga':
+                z[head] = torch.from_numpy(astype(frombin(self.__getattr__(head)(sec_feats), gettype(self.opt.N, self.opt.Es)), np.float32)).to(device)
+              else:
+                z[head] = torch.from_numpy(astype(self.__getattr__(head)(sec_feats), np.float32)).to(device)
+            else:
+              z[head] = self.__getattr__(head)(sec_feats)
         
         out.append(z)
 

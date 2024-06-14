@@ -91,7 +91,7 @@ The code has been tested on Ubuntu 16.04 and CentOS 7 with Python 3.7, CUDA 10.0
     **Note:** If the DCNv2 folder does not exist in the `networks` directory, it can be downloaded using this command:
     ```bash
     cd $CF_ROOT/src/lib/model/networks
-    git clone https://github.com/CharlesShang/DCNv2/
+    git clone https://github.com/gabriel-gubert/DCNv2_latest/
     ```
 
 ## Dataset Preparation
@@ -139,7 +139,7 @@ The code has been tested on Ubuntu 16.04 and CentOS 7 with Python 3.7, CUDA 10.0
 The pre-trained CenterFusion model and the baseline CenterNet model can be downloaded from the links below:
   | model       | epochs  | GPUs  | Backbone | Val NDS | Val mAP | Test  NDS   | Test mAP |
   |-------------|---------|-------|-----|-----|------|--------|-----------|
-  | [centerfusion_e60](https://drive.google.com/uc?export=download&id=1XaYx7JJJmQ6TBjCJJster-Z7ERyqu4Ig) | 60 |  2x Nvidia Quadro P5000 | DLA | 0.453 | 0.332 | 0.449 | 0.326 |
+  | [centerfusion_e60](https://drive.google.com/file/d/1EWGJ5p_FKU4_JK8T6riC_E-xaOit08y3) | 60 |  2x Nvidia Quadro P5000 | DLA | 0.453 | 0.332 | 0.449 | 0.326 |
   | [centernet_baseline_e170](https://drive.google.com/uc?export=download&id=1iFF7a5oueFfB5GnUoHFDnntFdTst-bVI) | 170 |  2x Nvidia Quadro P5000 | DLA | 0.328 | 0.306 | - | - |
   **Notes:**
   - The *centernet_baseline_e170* model is obtained by starting from the original CenterNet 3D detection model ([nuScenes_3Ddetection_e140](https://github.com/xingyizhou/CenterTrack/blob/master/readme/MODEL_ZOO.md)) and training the velocity and attributes heads for 30 epochs. 

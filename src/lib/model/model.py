@@ -7,6 +7,8 @@ import torch
 import torch.nn as nn
 import os
 
+import PQTorch
+
 from .networks.dla import DLASeg
 from .networks.resdcn import PoseResDCN
 from .networks.resnet import PoseResNet
@@ -125,3 +127,35 @@ def save_model(path, epoch, model, optimizer=None):
     data['optimizer'] = optimizer.state_dict()
   torch.save(data, path)
 
+def quantize_heads(model, opt):
+  if opt.quantize_heads == 'none':
+      return
+  elif opt.quantize_heads == 'all':
+    for head in model.heads:
+      qhead = PQTorch.quantize(model.__getattr__(head), opt.N, opt.Es, True, opt.qdevice, opt.fpga_host, opt.fpga_port, opt.fpga_conf, opt.inference_num_workers)
+      model.__setattr__(head, qhead)
+  elif opt.quantize_heads == 'all_as_storage':
+    for head in model.heads:
+      PQTorch.quantize_weights(model.__getattr__(head), N = opt.N, Es = opt.Es)
+  elif opt.quantize_heads == 'primary':
+    for head in model.heads:
+      if head in model.secondary_heads:
+        continue
+      qhead = PQTorch.quantize(model.__getattr__(head), opt.N, opt.Es, True, opt.qdevice, opt.fpga_host, opt.fpga_port, opt.fpga_conf, opt.inference_num_workers)
+      model.__setattr__(head, qhead)
+  elif opt.quantize_heads == 'primary_as_storage':
+    for head in model.heads:
+      if head in model.secondary_heads:
+        continue
+      PQTorch.quantize_weights(model.__getattr__(head), N = opt.N, Es = opt.Es)
+  elif opt.quantize_heads == 'secondary':
+    for head in model.heads:
+      if head in model.secondary_heads:
+        qhead = PQTorch.quantize(model.__getattr__(head), opt.N, opt.Es, True, opt.qdevice, opt.fpga_host, opt.fpga_port, opt.fpga_conf, opt.inference_num_workers)
+        model.__setattr__(head, qhead)
+  elif opt.quantize_heads == 'secondary_as_storage':
+    for head in model.heads:
+      if head in model.secondary_heads:
+        PQTorch.quantize_weights(model.__getattr__(head), N = opt.N, Es = opt.Es)
+  else:
+      raise RuntimeError(f'Expect <opt.quantize_heads> as [none | all | all_as_storage | primary | primary_as_storage | secondary | secondary_as_storage], is {opt.quantize_heads}.')

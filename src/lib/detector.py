@@ -10,7 +10,7 @@ import time
 import torch
 import math
 
-from model.model import create_model, load_model
+from model.model import create_model, load_model, quantize_heads
 from model.decode import fusion_decode #, generic_decode
 from model.utils import flip_tensor, flip_lr_off, flip_lr
 from utils.image import get_affine_transform, affine_transform
@@ -35,6 +35,9 @@ class Detector(object):
     self.model = load_model(self.model, opt.load_model, opt)
     self.model = self.model.to(opt.device)
     self.model.eval()
+
+    if opt.quantize_heads != 'none':
+      quantize_heads(self.model, opt)
 
     self.opt = opt
     self.trained_dataset = get_dataset(opt.dataset)

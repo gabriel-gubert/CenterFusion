@@ -299,8 +299,18 @@ class opts(object):
     self.parser.add_argument('--pillar_dims', type=str, default='2,0.5,0.5',
                              help='Radar pillar dimensions (h,w,l)')
     self.parser.add_argument('--show_velocity', action='store_true')
-    
-    
+
+    # Quantization
+    self.parser.add_argument('--quantize_heads', default = 'none', choices = ['none', 'all', 'all_as_storage', 'primary', 'primary_as_storage', 'secondary', 'secondary_as_storage'], help = 'Quantization Scheme for the Heads of the Model.')
+    self.parser.add_argument('--N', type = int, default = 8)
+    self.parser.add_argument('--Es', type = int, default = 2)
+    self.parser.add_argument('--qdevice', default = 'cpu', choices = ['cpu', 'fpga'])
+    self.parser.add_argument('--fpga_host', type = str, default = '127.0.0.1')
+    self.parser.add_argument('--fpga_port', type = int, default = 8080)
+    self.parser.add_argument('--fpga_conf', type = str, default = "KV260 4 4 8 2 128 8")
+    self.parser.add_argument('--inference_num_workers', type = int, default = 1)
+
+
 
   def parse(self, args=''):
     if args == '':
@@ -368,7 +378,10 @@ class opts(object):
     opt.exp_dir = os.path.join(opt.root_dir, 'exp', opt.task)
     opt.save_dir = os.path.join(opt.exp_dir, opt.exp_id)
     opt.debug_dir = os.path.join(opt.save_dir, 'debug')
-    
+
+    if not os.path.exists(opt.debug_dir):
+      os.makedirs(opt.debug_dir)
+
     if opt.resume and opt.load_model == '':
       opt.load_model = os.path.join(opt.save_dir, 'model_last.pth')
 
