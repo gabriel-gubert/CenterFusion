@@ -98,7 +98,7 @@ The code has been tested on Ubuntu 16.04 and CentOS 7 with Python 3.7, CUDA 10.0
     ```
 7. Install PQTorch:
     ```bash
-    git clone https://github.com/gabriel-gubert/PQTorch/ ~/PQTorch
+    git clone --recursive https://github.com/gabriel-gubert/PQTorch/ ~/PQTorch
     cd ~/PQTorch
     pip install .
     ```
