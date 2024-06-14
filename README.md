@@ -63,18 +63,21 @@ The code has been tested on Ubuntu 16.04 and CentOS 7 with Python 3.7, CUDA 10.0
 
 2. Install [PyTorch](https://pytorch.org/get-started/locally/):
     ```bash
-    pip install torch torchvision
+    pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2
     ```
 
 3. Install [COCOAPI](https://github.com/cocodataset/coco):
     ```bash
-    pip install cython; pip install -U 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
+    pip install cython;
+    git clone https://github.com/cocodataset/cocoapi.git ~/COCOAPI
+    cd ~/COCOAPI/PythonAPI
+    pip install -U .
     ```
 
 4. Clone the CenterFusion repository with the `--recursive` option. We'll call the directory that you cloned CenterFusion into `CF_ROOT`:
     ```bash
     CF_ROOT=/path/to/CenterFusion
-    git clone --recursive https://github.com/mrnabati/CenterFusion.git $CF_ROOT
+    git clone --recursive https://github.com/gabriel-gubert/CenterFusion.git $CF_ROOT
     ```
 
 5. Install the requirements:
@@ -85,14 +88,26 @@ The code has been tested on Ubuntu 16.04 and CentOS 7 with Python 3.7, CUDA 10.0
 
 6. Build the deformable convolution library:
     ```bash
-    cd $CF_ROOT/src/lib/model/networks/DCNv2
-    ./make.sh
+    cd $CF_ROOT/src/lib/model/networks/DCNv2_latest
+    pip install .
     ```
-    **Note:** If the DCNv2 folder does not exist in the `networks` directory, it can be downloaded using this command:
+    **Note:** If the DCNv2_latest folder does not exist in the `networks` directory, it can be downloaded using this command:
     ```bash
     cd $CF_ROOT/src/lib/model/networks
     git clone https://github.com/gabriel-gubert/DCNv2_latest/
     ```
+7. Install PQTorch:
+    ```bash
+    git clone https://github.com/gabriel-gubert/PQTorch/ ~/PQTorch
+    cd ~/PQTorch
+    pip install .
+    ```
+
+8. (FPGA-only) Install PQTorcHA on the Kria KV260 Vision Starter Kit (or similar):
+    ```bash
+    git clone https://github.com/gabriel-gubert/PQTorcHA/ ~/PQTorcHA
+    cd ~/PQTorcHA
+    pip install .
 
 ## Dataset Preparation
 
