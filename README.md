@@ -96,17 +96,17 @@ The code has been tested on Ubuntu 16.04 and CentOS 7 with Python 3.7, CUDA 10.0
     cd $CF_ROOT/src/lib/model/networks
     git clone https://github.com/gabriel-gubert/DCNv2_latest/
     ```
-7. Install PQTorch:
+7. Install Posits4Torch:
     ```bash
-    git clone --recursive https://github.com/gabriel-gubert/PQTorch/ ~/PQTorch
-    cd ~/PQTorch
-    pip install .
+    git clone --recursive https://github.com/gabriel-gubert/Posits4Torch/ ~/Posits4Torch
+    cd ~/Posits4Torch
+    ./install.sh
     ```
 
-8. (FPGA-only) Install PQTorcHA on the Kria KV260 Vision Starter Kit (or similar):
+8. (FPGA-only) Install Posits4TorcHA on the Kria KV260 Vision Starter Kit (or similar):
     ```bash
-    git clone https://github.com/gabriel-gubert/PQTorcHA/ ~/PQTorcHA
-    cd ~/PQTorcHA
+    git clone https://github.com/gabriel-gubert/Posits4TorcHA/ ~/Posits4TorcHA
+    cd ~/Posits4TorcHA
     pip install .
 
 ## Dataset Preparation
