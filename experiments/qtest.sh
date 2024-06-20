@@ -63,7 +63,7 @@ else
 		--qdevice fpga \
 		--fpga_host 10.116.35.155 \
 		--fpga_port 8080 \
-		--fpga_conf "KV260 8 8 8 2 128 512" \
+		--fpga_conf "KV260 8 8 $N $Es 128 512" \
                 --inference_num_workers 4
 fi
 
