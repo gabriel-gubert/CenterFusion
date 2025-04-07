@@ -1,4 +1,4 @@
-export CUDA_VISIBLE_DEVICES=0,1,2,3
+export CUDA_VISIBLE_DEVICES=0
  
 CURRENT_WORKING_DIR=$(pwd)
  
@@ -18,7 +18,7 @@ then
 		--load_model ../models/centerfusion_e60.pth \
 		--debug 4 \
 		--no_pause \
-		--gpus 0,1 \
+		--gpus 0 \
 		--run_dataset_eval \
 		--input_h 448 \
 		--input_w 800 \
@@ -42,7 +42,7 @@ else
                 --load_model ../models/centerfusion_e60.pth \
                 --debug 4 \
                 --no_pause \
-                --gpus 0,1 \
+                --gpus 0 \
                 --run_dataset_eval \
                 --input_h 448 \
                 --input_w 800 \

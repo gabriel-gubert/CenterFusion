@@ -10,7 +10,7 @@ import numpy as np
 import torch
 from torch import nn
 
-from PQTorch import gettype, astype, tobin, frombin
+from Posits4Torch import gettype, astype, tobin, frombin
 
 def fill_fc_weights(layers):
     for m in layers.modules():
