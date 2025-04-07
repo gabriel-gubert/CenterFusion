@@ -56,22 +56,25 @@ We focus on the problem of radar and camera sensor fusion and propose a middle-f
 
 The code has been tested on Ubuntu 16.04 and CentOS 7 with Python 3.7, CUDA 10.0 and PyTorch 1.2. For installation, follow these steps:
 
-1. Create a new virtual environment (optional):
+1. Create a new virtual environment:
     ```bash
-    mkvirtualenv centerfusion  
+    conda create -n CenterFusion python=3.8.20
+    conda activate CenterFusion
+    mkdir -p ~/TEMP
+    export TMPDIR=~/TEMP
+    pip install cython setuptools==59.8.0
     ```
 
 2. Install [PyTorch](https://pytorch.org/get-started/locally/):
     ```bash
-    pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2
+    pip install torch torchvision torchaudio
     ```
 
 3. Install [COCOAPI](https://github.com/cocodataset/coco):
     ```bash
-    pip install cython;
     git clone https://github.com/cocodataset/cocoapi.git ~/COCOAPI
     cd ~/COCOAPI/PythonAPI
-    pip install -U .
+    pip install .
     ```
 
 4. Clone the CenterFusion repository with the `--recursive` option. We'll call the directory that you cloned CenterFusion into `CF_ROOT`:
