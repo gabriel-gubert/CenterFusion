@@ -137,7 +137,10 @@ class Detector(object):
           pre_hms=pre_hms)
 
     results = self.merge_outputs(detections)
-    torch.cuda.synchronize()
+    if self.opt.gpus[0] >= 0:
+      torch.cuda.synchronize()
+    else:
+      torch.cpu.synchronize()
     end_time = time.time()
     merge_time += end_time - post_process_time
     
@@ -320,19 +323,28 @@ class Detector(object):
     pre_inds=None, return_time=False, pc_dep=None, meta=None):
     with torch.no_grad():
       calib = torch.from_numpy(meta['calib']).float().to(images.device).squeeze(0)
-      torch.cuda.synchronize()
+      if self.opt.gpus[0] >= 0:
+        torch.cuda.synchronize()
+      else:
+        torch.cpu.synchronize()
       output = self.model(images, pc_dep=pc_dep, calib=calib)[-1]
 
       output = self._sigmoid_output(output)
       output.update({'pre_inds': pre_inds})
       if self.opt.flip_test:
         output = self._flip_output(output)
-      torch.cuda.synchronize()
+      if self.opt.gpus[0] >= 0:
+        torch.cuda.synchronize()
+      else:
+        torch.cpu.synchronize()
       forward_time = time.time()
       
       # dets = generic_decode(output, K=self.opt.K, opt=self.opt)
       dets = fusion_decode(output, K=self.opt.K, opt=self.opt)
-      torch.cuda.synchronize()
+      if self.opt.gpus[0] >= 0:
+        torch.cuda.synchronize()
+      else:
+        torch.cpu.synchronize()
       for k in dets:
         dets[k] = dets[k].detach().cpu().numpy()
     if return_time:
