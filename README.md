@@ -198,12 +198,12 @@ or
 
   ```bash
   cd $CF_ROOT
-  bash experiments/Test_Posit-as-Storage_All.sh
-  bash experiments/Test_Posit-as-Storage_Primary.sh
-  bash experiments/Test_Posit-as-Storage_Secondary.sh
-  bash experiments/Test_Posit-as-Arithmetic_KV260_All.sh
-  bash experiments/Test_Posit-as-Arithmetic_KV260_Primary.sh
-  bash experiments/Test_Posit-as-Arithmetic_KV260_Secondary.sh
+  bash experiments/Test_Posit-as-Storage_All.sh <N> <Es>
+  bash experiments/Test_Posit-as-Storage_Primary.sh <N> <Es>
+  bash experiments/Test_Posit-as-Storage_Secondary.sh <N> <Es>
+  bash experiments/Test_Posit-as-Arithmetic_KV260_All.sh <N> <Es>
+  bash experiments/Test_Posit-as-Arithmetic_KV260_Primary.sh <N> <Es>
+  bash experiments/Test_Posit-as-Arithmetic_KV260_Secondary.sh <N> <Es>
   bash experiments/Test_INT8_All.sh
   bash experiments/Test_INT8_Primary.sh
   bash experiments/Test_INT8_Secondary.sh

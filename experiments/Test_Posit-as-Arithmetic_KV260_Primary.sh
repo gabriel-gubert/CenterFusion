@@ -2,8 +2,8 @@ export CUDA_VISIBLE_DEVICES=0
  
 cd ../src
 
-N=$2
-Es=$3
+N=$1
+Es=$2
 LABEL="KV260-Posit-${N}-${Es}-Primary"
 
 echo "Evaluating Posit ($N, $Es)-Quantized CenterFusion..."
