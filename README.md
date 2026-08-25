@@ -39,6 +39,7 @@ We focus on the problem of radar and camera sensor fusion and propose a middle-f
   |--------------|------|------|------|------|------|------|------|
   |nuScenes Test | 0.449|0.326 |0.631 |0.261 |0.516 |0.614 |0.115 |
   |nuScenes Val  | 0.453|0.332 |0.649 |0.263 |0.535 |0.540 |0.142 |
+  |nuScenes Mini-Val  | 0.377|0.314 |0.664 |0.463 |0.597 |0.767 |0.308 |
 
 - #### Per-class mAP: <!-- omit in toc --> 
   
@@ -46,6 +47,7 @@ We focus on the problem of radar and camera sensor fusion and propose a middle-f
   |-------------|------|-------|-----|---------|--------|---------|--------|---------|--------|---------|
   |nuScenes Test|0.509 |0.258  |0.234| 0.235   |0.077   |0.370    |0.314   |0.201    |0.575   | 0.484   |
   |nuScenes Val |0.524 |0.265  |0.362| 0.154   |0.055   |0.389    |0.305   |0.229    |0.563   | 0.470   |
+  |nuScenes Mini-Val |0.540 |0.448  |0.543| -   |-   |0.466    |0.317   |0.179    |0.645   | -   |
 
 - #### Qualitative results: <!-- omit in toc --> 
 
@@ -174,11 +176,30 @@ The `--train_split` parameter determines the training set, which could be `mini_
 
 
 ## Testing
-Download the pre-trained model into the `$CF_ROOT/models` directory and use the `$CF_ROOT/experiments/test.sh` script to run the evaluation:
+Download the pre-trained model into the `$CF_ROOT/models` directory and use the `$CF_ROOT/experiments/<EXPERIMENT_NAME>.sh` script to run the evaluation:
 
   ```bash
   cd $CF_ROOT
-  bash experiments/test.sh
+  bash experiments/Full_Test_Posit-as-Storage.sh
+  bash experiments/Full_Test_Posit-as-Arithmetic_KV260.sh
+  bash experiments/Test_INT8_All.sh
+  bash experiments/Test_INT8_Primary.sh
+  bash experiments/Test_INT8_Secondary.sh
+  ```
+
+or
+
+  ```bash
+  cd $CF_ROOT
+  bash experiments/Test_Posit-as-Storage_All.sh
+  bash experiments/Test_Posit-as-Storage_Primary.sh
+  bash experiments/Test_Posit-as-Storage_Secondary.sh
+  bash experiments/Test_Posit-as-Arithmetic_KV260_All.sh
+  bash experiments/Test_Posit-as-Arithmetic_KV260_Primary.sh
+  bash experiments/Test_Posit-as-Arithmetic_KV260_Secondary.sh
+  bash experiments/Test_INT8_All.sh
+  bash experiments/Test_INT8_Primary.sh
+  bash experiments/Test_INT8_Secondary.sh
   ```
 
 Make sure the `--load_model` parameter in the script provides the path to the downloaded pre-trained model. The `--val_split` parameter determines the validation set, which could be `mini_val`, `val` or `test`. You can adjust the other parameters as needed, or add more supported parameters from `$CF_ROOT/src/lib/opts.py`.
