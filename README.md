@@ -186,27 +186,27 @@ Download the pre-trained model into the `$CF_ROOT/models` directory and use the 
 Download the pre-trained model into the `$CF_ROOT/models` directory and use the `$CF_ROOT/experiments/<EXPERIMENT_NAME>.sh` script to run the evaluation:
 
   ```bash
-  cd $CF_ROOT
-  bash experiments/Full_Test_Posit-as-Storage.sh
-  bash experiments/Full_Test_Posit-as-Arithmetic_KV260.sh
-  bash experiments/Test_INT8_All.sh
-  bash experiments/Test_INT8_Primary.sh
-  bash experiments/Test_INT8_Secondary.sh
+  cd $CF_ROOT/experiments
+  bash Full_Test_Posit-as-Storage.sh
+  bash Full_Test_Posit-as-Arithmetic_KV260.sh
+  bash Test_INT8_All.sh
+  bash Test_INT8_Primary.sh
+  bash Test_INT8_Secondary.sh
   ```
 
 or
 
   ```bash
-  cd $CF_ROOT
-  bash experiments/Test_Posit-as-Storage_All.sh <N> <Es>
-  bash experiments/Test_Posit-as-Storage_Primary.sh <N> <Es>
-  bash experiments/Test_Posit-as-Storage_Secondary.sh <N> <Es>
-  bash experiments/Test_Posit-as-Arithmetic_KV260_All.sh <N> <Es>
-  bash experiments/Test_Posit-as-Arithmetic_KV260_Primary.sh <N> <Es>
-  bash experiments/Test_Posit-as-Arithmetic_KV260_Secondary.sh <N> <Es>
-  bash experiments/Test_INT8_All.sh
-  bash experiments/Test_INT8_Primary.sh
-  bash experiments/Test_INT8_Secondary.sh
+  cd $CF_ROOT/experiments
+  bash Test_Posit-as-Storage_All.sh <N> <Es>
+  bash Test_Posit-as-Storage_Primary.sh <N> <Es>
+  bash Test_Posit-as-Storage_Secondary.sh <N> <Es>
+  bash Test_Posit-as-Arithmetic_KV260_All.sh <N> <Es>
+  bash Test_Posit-as-Arithmetic_KV260_Primary.sh <N> <Es>
+  bash Test_Posit-as-Arithmetic_KV260_Secondary.sh <N> <Es>
+  bash Test_INT8_All.sh
+  bash Test_INT8_Primary.sh
+  bash Test_INT8_Secondary.sh
   ```
 
 Make sure the `--load_model` parameter in the script provides the path to the downloaded pre-trained model. The `--val_split` parameter determines the validation set, which could be `mini_val`, `val` or `test`. You can adjust the other parameters as needed, or add more supported parameters from `$CF_ROOT/src/lib/opts.py`.
