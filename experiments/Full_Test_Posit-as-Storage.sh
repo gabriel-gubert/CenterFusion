@@ -61,5 +61,3 @@ for MODE in "${MODES[@]}"; do
     start 8 0 "$MODE"
 
 done
-
-cd "$CURRENT_WORKING_DIR"

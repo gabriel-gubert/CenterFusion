@@ -1,6 +1,12 @@
+#!/bin/bash
+
 export CUDA_VISIBLE_DEVICES=0
- 
+
 cd ../src
+
+FPGA_HOST="10.116.35.155"
+FPGA_PORT="8080"
+FPGA_CONF_TEMPLATE="KV260 8 8 %N% %Es% 128 512"
 
 N=$1
 Es=$2
@@ -29,10 +35,10 @@ python test.py ddd \
 	--eval_render_curves \
 	--show_velocity \
 	--quantize_heads all \
-	--N $N \
-	--Es $Es \
+	--N "$N" \
+	--Es "$Es" \
 	--qdevice fpga \
-	--fpga_host 10.116.35.155 \
-	--fpga_port 8080 \
-	--fpga_conf "KV260 8 8 $N $Es 128 512" \
+	--fpga_host "$FPGA_HOST" \
+	--fpga_port "$FPGA_PORT" \
+	--fpga_conf "$FPGA_CONF" \
 	--inference_num_workers 4

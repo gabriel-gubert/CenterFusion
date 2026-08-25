@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export CUDA_VISIBLE_DEVICES=0
  
 cd ../src
@@ -25,5 +27,3 @@ python Test_INT8_Secondary.py ddd \
 	--pc_z_offset -0.0 \
 	--eval_render_curves \
 	--show_velocity
-
-cd $CURRENT_WORKING_DIR
