@@ -174,8 +174,15 @@ The `$CF_ROOT/experiments/train.sh` script can be used to train the network:
 
 The `--train_split` parameter determines the training set, which could be `mini_train` or `train`. the `--load_model` parameter can be set to continue training from a pretrained model, or removed to start training from scratch. You can modify the parameters in the script as needed, or add more supported parameters from `$CF_ROOT/src/lib/opts.py`.
 
+## Testing Floating-Point 32-bit
+Download the pre-trained model into the `$CF_ROOT/models` directory and use the `$CF_ROOT/experiments/test.sh` script to run the evaluation:
 
-## Testing
+  ```bash
+  cd $CF_ROOT
+  bash experiments/test.sh
+  ```
+
+## Testing Posit / INT8
 Download the pre-trained model into the `$CF_ROOT/models` directory and use the `$CF_ROOT/experiments/<EXPERIMENT_NAME>.sh` script to run the evaluation:
 
   ```bash
