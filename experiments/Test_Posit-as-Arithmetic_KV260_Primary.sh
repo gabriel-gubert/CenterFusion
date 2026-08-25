@@ -1,12 +1,10 @@
 export CUDA_VISIBLE_DEVICES=0
  
-CURRENT_WORKING_DIR=$(pwd)
- 
-cd ~/CenterFusion/src
+cd ../src
 
-LABEL=$1
 N=$2
 Es=$3
+LABEL="KV260-Posit-${N}-${Es}-Primary"
 
 echo "Evaluating Posit ($N, $Es)-Quantized CenterFusion..."
 python test.py ddd \
@@ -38,5 +36,3 @@ python test.py ddd \
 	--fpga_port 8080 \
 	--fpga_conf "KV260 8 8 $N $Es 128 512" \
 	--inference_num_workers 4
-
-cd $CURRENT_WORKING_DIR

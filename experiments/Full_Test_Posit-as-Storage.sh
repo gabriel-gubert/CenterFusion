@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export CUDA_VISIBLE_DEVICES=0
-CURRENT_WORKING_DIR=$(pwd)
-cd ~/CenterFusion/src
+
+cd ../src
 
 MODES=("primary_as_storage" "all_as_storage" "secondary_as_storage")
 
@@ -11,10 +11,9 @@ start() {
     local Es=$2
     local MODE=$3
 
-    local TITLE_MODE=$(echo "$MODE" | sed -E 's/(^|_)([a-z])/\1\U\2/g')
-    
-    local TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-    local LABEL="Posit_${N}_${Es}_${TITLE_MODE}_${TIMESTAMP}"
+    local TITLE_MODE=$(echo "$MODE" | sed -E 's/_/-/g; s/\b[a-z]/\U&/g; s/-As-/-as-/g')
+
+    local LABEL="Posit-${N}-${Es}-${TITLE_MODE}"
 
     echo "--------------------------------------------------------"
     echo "Evaluating Posit ($N, $Es)-Quantized CenterFusion..."

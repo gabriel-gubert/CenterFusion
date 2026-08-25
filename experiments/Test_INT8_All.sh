@@ -1,10 +1,8 @@
 export CUDA_VISIBLE_DEVICES=0
  
-CURRENT_WORKING_DIR=$(pwd)
- 
-cd ~/CenterFusion/src
+cd ../src
 
-LABEL=$1
+LABEL="INT8-All"
 
 python Test_INT8_All.py ddd \
 	--dataset nuscenes \
@@ -27,5 +25,3 @@ python Test_INT8_All.py ddd \
 	--pc_z_offset -0.0 \
 	--eval_render_curves \
 	--show_velocity
-
-cd $CURRENT_WORKING_DIR

@@ -1,10 +1,8 @@
 export CUDA_VISIBLE_DEVICES=0
  
-CURRENT_WORKING_DIR=$(pwd)
- 
-cd ~/CenterFusion/src
+cd ../src
 
-LABEL=$1
+LABEL="INT8-Secondary"
 
 python Test_INT8_Secondary.py ddd \
 	--dataset nuscenes \

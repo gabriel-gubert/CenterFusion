@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export CUDA_VISIBLE_DEVICES=0
-CURRENT_WORKING_DIR=$(pwd)
-cd ~/CenterFusion/src
+
+cd ../src
 
 FPGA_HOST="10.116.35.155"
 FPGA_PORT="8080"
@@ -10,16 +10,15 @@ FPGA_CONF_TEMPLATE="KV260 8 8 %N% %Es% 128 512"
 
 MODES=("primary" "all" "secondary")
 
-run_evaluation() {
+start() {
     local N=$1
     local Es=$2
     local MODE=$3
     
-    local TITLE_MODE=$(echo "$MODE" | sed -E 's/(^|_)([a-z])/\1\U\2/g')
-    
-    local TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-    local LABEL="Posit_${N}_${Es}_${TITLE_MODE}_${TIMESTAMP}"
-    
+    local TITLE_MODE=$(echo "$MODE" | sed -E 's/_/-/g; s/\b[a-z]/\U&/g; s/-As-/-as-/g')
+
+    local LABEL="KV260-Posit-${N}-${Es}-${TITLE_MODE}"
+
     local FPGA_CONF="${FPGA_CONF_TEMPLATE//%N%/$N}"
     FPGA_CONF="${FPGA_CONF//%Es%/$Es}"
 
@@ -65,8 +64,6 @@ run_evaluation() {
 
 for MODE in "${MODES[@]}"; do
     for N in {6..8}; do
-        run_evaluation "$N" 2 "$MODE"
+        start "$N" 2 "$MODE"
     done
 done
-
-cd "$CURRENT_WORKING_DIR"

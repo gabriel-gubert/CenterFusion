@@ -1,12 +1,10 @@
 export CUDA_VISIBLE_DEVICES=0
- 
-CURRENT_WORKING_DIR=$(pwd)
- 
-cd ~/CenterFusion/src
 
-LABEL=$1
+cd ../src
+
 N=$2
 Es=$3
+LABEL="Posit-${N}-${Es}-Primary-as-Storage"
 
 echo "Evaluating Posit ($N, $Es)-Quantized CenterFusion..."
 python test.py ddd \
@@ -34,5 +32,3 @@ python test.py ddd \
 	--N $N \
 	--Es $Es \
 	--inference_num_workers 4
-
-cd $CURRENT_WORKING_DIR
